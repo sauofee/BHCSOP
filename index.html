@@ -1,96 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BHC SOP Library Tabs</title>
   <style>
     :root {
       --teams-purple: #6264a7;
       --teams-purple-dark: #464775;
-      --teams-bg: #f5f5f8;
+      --teams-bg: #f5f5f5;
       --card-bg: #ffffff;
       --text: #242424;
       --muted: #616161;
-      --border: #dddde7;
-      --shadow: 0 12px 30px rgba(32, 31, 31, 0.12);
+      --border: #e1dfdd;
+      --shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
+      --radius: 22px;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(135deg, #f7f7fb 0%, #ececf7 100%);
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(98, 100, 167, 0.22), transparent 34%),
+        linear-gradient(135deg, #f8f8ff 0%, var(--teams-bg) 55%, #eef1ff 100%);
       color: var(--text);
       min-height: 100vh;
     }
 
-    .app-shell {
-      max-width: 1200px;
+    .page {
+      width: min(1120px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 28px 20px;
+      padding: 48px 0;
     }
 
-    .hero {
+    header {
       background: linear-gradient(135deg, var(--teams-purple), var(--teams-purple-dark));
       color: #fff;
-      border-radius: 24px;
-      padding: 28px;
+      padding: 34px;
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
 
-    .hero h1 {
-      margin: 0 0 8px;
-      font-size: clamp(26px, 4vw, 40px);
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: -0.03em;
+      opacity: 0.86;
+      margin-bottom: 10px;
     }
 
-    .hero p {
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 50px);
+      line-height: 1.05;
+      font-weight: 750;
+    }
+
+    .subtitle {
+      max-width: 720px;
       margin: 0;
       color: rgba(255, 255, 255, 0.86);
-      font-size: 16px;
+      font-size: 17px;
       line-height: 1.5;
     }
 
-    .panel {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      box-shadow: var(--shadow);
+    .tabs-wrap {
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(225, 223, 221, 0.85);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(12px);
       overflow: hidden;
     }
 
     .tabs {
       display: flex;
-      gap: 10px;
-      padding: 14px;
-      background: #fbfbfd;
+      gap: 8px;
+      padding: 12px;
+      background: #fff;
       border-bottom: 1px solid var(--border);
-      flex-wrap: wrap;
     }
 
     .tab-button {
-      appearance: none;
-      border: 1px solid transparent;
+      border: 0;
+      border-radius: 14px;
       background: transparent;
       color: var(--muted);
-      padding: 13px 18px;
-      border-radius: 14px;
       cursor: pointer;
-      font-size: 15px;
-      font-weight: 650;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font: inherit;
+      font-weight: 700;
+      padding: 14px 18px;
+      transition: 180ms ease;
+      flex: 1;
+      text-align: center;
     }
 
-    .tab-button:hover {
-      background: #eeeeF8;
+    .tab-button:hover,
+    .tab-button:focus-visible {
+      background: #f0efff;
       color: var(--teams-purple-dark);
+      outline: none;
     }
 
     .tab-button.active {
@@ -99,197 +112,160 @@
       box-shadow: 0 8px 18px rgba(98, 100, 167, 0.28);
     }
 
+    .panel {
+      display: none;
+      padding: 28px;
+      animation: fadeIn 180ms ease-in-out;
+    }
+
+    .panel.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: center;
+    }
+
     .icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 9px;
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
       display: grid;
       place-items: center;
-      background: rgba(98, 100, 167, 0.12);
-      font-size: 16px;
-    }
-
-    .tab-button.active .icon {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .content {
-      padding: 20px;
-    }
-
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-
-    .content-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .content-header h2 {
-      margin: 0;
-      font-size: 24px;
-      letter-spacing: -0.02em;
-    }
-
-    .content-header p {
-      margin: 6px 0 0;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      text-decoration: none;
-      border: 1px solid var(--border);
-      background: #fff;
+      font-size: 27px;
+      background: #f0efff;
       color: var(--teams-purple-dark);
-      padding: 11px 14px;
-      border-radius: 12px;
-      font-weight: 650;
-      font-size: 14px;
-      transition: all 0.2s ease;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: clamp(24px, 3vw, 34px);
+    }
+
+    .description {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+      max-width: 680px;
+    }
+
+    .open-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 190px;
+      text-decoration: none;
+      color: #fff;
+      background: var(--teams-purple);
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 750;
+      box-shadow: 0 10px 22px rgba(98, 100, 167, 0.26);
+      transition: 180ms ease;
       white-space: nowrap;
     }
 
-    .btn.primary {
-      background: var(--teams-purple);
-      color: #fff;
-      border-color: var(--teams-purple);
-    }
-
-    .btn:hover {
+    .open-link:hover,
+    .open-link:focus-visible {
+      background: var(--teams-purple-dark);
       transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(32, 31, 31, 0.10);
+      outline: none;
     }
 
-    .viewer-wrap {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      background: #f9f9fc;
-      min-height: 560px;
-      position: relative;
-    }
-
-    iframe {
-      width: 100%;
-      height: 640px;
-      border: 0;
-      background: #fff;
-      display: block;
-    }
-
-    .fallback {
-      display: none;
-      padding: 22px;
-      color: var(--muted);
-      line-height: 1.5;
-      background: #fff;
-      border-top: 1px solid var(--border);
-    }
-
-    .footer-note {
+    .note {
+      margin: 18px 0 0;
       color: var(--muted);
       font-size: 13px;
-      margin-top: 14px;
-      line-height: 1.45;
     }
 
-    @media (max-width: 720px) {
-      .app-shell { padding: 16px; }
-      .hero { padding: 22px; border-radius: 18px; }
+    @media (max-width: 760px) {
+      .page { padding: 24px 0; }
+      header { padding: 26px; }
       .tabs { flex-direction: column; }
-      .tab-button { width: 100%; justify-content: flex-start; }
-      iframe { height: 560px; }
+      .content-card { grid-template-columns: 1fr; }
+      .open-link { width: 100%; }
     }
   </style>
 </head>
 <body>
-  <main class="app-shell">
-    <section class="hero">
-      <h1>BHC SOP Library</h1>
-      <p>Quick access hub for department SOP folders inside Microsoft Teams.</p>
-    </section>
+  <main class="page">
+    <header>
+      <div class="eyebrow">BHC Consultants</div>
+      <h1>SOP Library</h1>
+      <p class="subtitle">Quick access tabs for project procedure folders. Select a tab, then open the linked SharePoint location.</p>
+    </header>
 
-    <section class="panel" aria-label="SOP Library Tabs">
-      <nav class="tabs" role="tablist" aria-label="SOP Categories">
-        <button class="tab-button active" role="tab" aria-selected="true" aria-controls="financial" id="tab-financial" data-tab="financial">
-          <span class="icon">$</span>
+    <section class="tabs-wrap" aria-label="SOP Library Tabs">
+      <div class="tabs" role="tablist" aria-label="SOP categories">
+        <button class="tab-button active" id="tab-financial" role="tab" aria-selected="true" aria-controls="panel-financial" type="button">
           Financial Planning &amp; Controls
         </button>
-        <button class="tab-button" role="tab" aria-selected="false" aria-controls="business" id="tab-business" data-tab="business">
-          <span class="icon">↗</span>
+        <button class="tab-button" id="tab-business" role="tab" aria-selected="false" aria-controls="panel-business" type="button">
           Business Development &amp; Marketing
         </button>
-      </nav>
-
-      <div class="content">
-        <article class="tab-content active" id="financial" role="tabpanel" aria-labelledby="tab-financial">
-          <div class="content-header">
-            <div>
-              <h2>Financial Planning &amp; Controls</h2>
-              <p>Access financial planning, controls, budgeting, and related SOP documents.</p>
-            </div>
-            <div class="actions">
-              <a class="btn primary" target="_blank" rel="noopener" href="https://bhcconsultants-my.sharepoint.com/personal/nesselburn_bhcconsultants_com/_layouts/15/onedrive.aspx?ct=1779920701567&amp;or=OWA%2DNT%2DMail&amp;id=%2Fpersonal%2Fnesselburn%5Fbhcconsultants%5Fcom%2FDocuments%2FSOP%20Library%20Project%2FFinancial%20Planning%20%26%20Controls">Open in SharePoint</a>
-            </div>
-          </div>
-          <div class="viewer-wrap">
-            <iframe title="Financial Planning and Controls" src="https://bhcconsultants-my.sharepoint.com/personal/nesselburn_bhcconsultants_com/_layouts/15/onedrive.aspx?ct=1779920701567&amp;or=OWA%2DNT%2DMail&amp;id=%2Fpersonal%2Fnesselburn%5Fbhcconsultants%5Fcom%2FDocuments%2FSOP%20Library%20Project%2FFinancial%20Planning%20%26%20Controls"></iframe>
-            <div class="fallback">If the SharePoint folder does not display inside Teams, use the Open in SharePoint button above.</div>
-          </div>
-        </article>
-
-        <article class="tab-content" id="business" role="tabpanel" aria-labelledby="tab-business">
-          <div class="content-header">
-            <div>
-              <h2>Business Development &amp; Marketing</h2>
-              <p>Access business development, marketing, proposals, and related SOP documents.</p>
-            </div>
-            <div class="actions">
-              <a class="btn primary" target="_blank" rel="noopener" href="https://bhcconsultants-my.sharepoint.com/personal/nesselburn_bhcconsultants_com/_layouts/15/onedrive.aspx?ct=1779920701567&amp;or=OWA%2DNT%2DMail&amp;id=%2Fpersonal%2Fnesselburn%5Fbhcconsultants%5Fcom%2FDocuments%2FSOP%20Library%20Project%2FBusiness%20Development%20%26%20Marketing">Open in SharePoint</a>
-            </div>
-          </div>
-          <div class="viewer-wrap">
-            <iframe title="Business Development and Marketing" src="https://bhcconsultants-my.sharepoint.com/personal/nesselburn_bhcconsultants_com/_layouts/15/onedrive.aspx?ct=1779920701567&amp;or=OWA%2DNT%2DMail&amp;id=%2Fpersonal%2Fnesselburn%5Fbhcconsultants%5Fcom%2FDocuments%2FSOP%20Library%20Project%2FBusiness%20Development%20%26%20Marketing"></iframe>
-            <div class="fallback">If the SharePoint folder does not display inside Teams, use the Open in SharePoint button above.</div>
-          </div>
-        </article>
-
-        <p class="footer-note">Note: Some SharePoint or OneDrive pages may block iframe embedding depending on tenant policy. The Open in SharePoint button is included as a reliable fallback.</p>
       </div>
+
+      <article class="panel active" id="panel-financial" role="tabpanel" aria-labelledby="tab-financial">
+        <div class="content-card">
+          <div>
+            <div class="icon" aria-hidden="true">$</div>
+            <h2>Financial Planning &amp; Controls</h2>
+            <p class="description">Access SOPs, controls documentation, budgeting materials, and financial planning resources for the SOP Library Project.</p>
+            <p class="note">Opens in SharePoint/OneDrive using your Microsoft 365 permissions.</p>
+          </div>
+          <a class="open-link" href="https://bhcconsultants-my.sharepoint.com/personal/nesselburn_bhcconsultants_com/_layouts/15/onedrive.aspx?ct=1779920701567&amp;or=OWA%2DNT%2DMail&amp;id=%2Fpersonal%2Fnesselburn%5Fbhcconsultants%5Fcom%2FDocuments%2FSOP%20Library%20Project%2FFinancial%20Planning%20%26%20Controls" target="_blank" rel="noopener noreferrer">
+            Open Folder <span aria-hidden="true">-&gt;</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-business" role="tabpanel" aria-labelledby="tab-business">
+        <div class="content-card">
+          <div>
+            <div class="icon" aria-hidden="true">BD</div>
+            <h2>Business Development &amp; Marketing</h2>
+            <p class="description">Access SOPs, marketing resources, proposal-development materials, and business development documentation for the SOP Library Project.</p>
+            <p class="note">Opens in SharePoint/OneDrive using your Microsoft 365 permissions.</p>
+          </div>
+          <a class="open-link" href="https://bhcconsultants-my.sharepoint.com/personal/nesselburn_bhcconsultants_com/_layouts/15/onedrive.aspx?ct=1779920701567&amp;or=OWA%2DNT%2DMail&amp;id=%2Fpersonal%2Fnesselburn%5Fbhcconsultants%5Fcom%2FDocuments%2FSOP%20Library%20Project%2FBusiness%20Development%20%26%20Marketing" target="_blank" rel="noopener noreferrer">
+            Open Folder <span aria-hidden="true">-&gt;</span>
+          </a>
+        </div>
+      </article>
     </section>
   </main>
 
   <script>
-    const buttons = document.querySelectorAll('.tab-button');
-    const panels = document.querySelectorAll('.tab-content');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const panels = document.querySelectorAll('.panel');
 
-    buttons.forEach((button) => {
+    tabButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        const target = button.dataset.tab;
-
-        buttons.forEach((btn) => {
-          btn.classList.remove('active');
-          btn.setAttribute('aria-selected', 'false');
+        tabButtons.forEach((tab) => {
+          tab.classList.remove('active');
+          tab.setAttribute('aria-selected', 'false');
         });
 
-        panels.forEach((panel) => {
-          panel.classList.remove('active');
-        });
+        panels.forEach((panel) => panel.classList.remove('active'));
 
         button.classList.add('active');
         button.setAttribute('aria-selected', 'true');
-        document.getElementById(target).classList.add('active');
+
+        const panel = document.getElementById(button.getAttribute('aria-controls'));
+        panel.classList.add('active');
       });
     });
   </script>
